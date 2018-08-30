@@ -18,8 +18,10 @@
     <div class="media">
         <div class="media-body">
             <h4 class="model-title">
-                {{ model.title }} - {{ model.type }} - {{ model.createdBy }}
+                {{ model.title }}
             </h4>
+            <p>Time: {{ model.createdTime }}</p>
+            <p>Type: {{ model.type }}</p>
             <p class="model-description">{{ model.description }}</p>
             <small class="model-added-by">Added by {{ model.createdBy|default('Anonymous', True) }}</small>
         </div>

@@ -1,3 +1,5 @@
+import datetime
+
 from hydroearth.frontend.app import get_datastore, oauth2
 from hydroearth.tasks import tasks
 from hydroearth.data import storage
@@ -79,7 +81,8 @@ def add():
     if request.method == 'POST':
         data = request.form.to_dict(flat=True)
 
-        print(data)
+        data['createdTime'] = datetime.datetime.now()\
+            .strftime('%Y-%m-%d %H:%M:%S')
 
         # If an image was uploaded, update the data to point to the new image.
         image_url = upload_image_file(request.files.get('image'))

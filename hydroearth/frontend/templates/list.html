@@ -13,9 +13,13 @@
             <a href="/models/{{ model.id }}">
                 <div class="media-body">
                     <h4>{{ model.title }}</h4>
-                    <p>{{ model.author }}</p>
                 </div>
             </a>
+                    <p>Type: {{ model.type }}</p>
+                    <p>Time: {{ model.createdTime }}</p>
+                    <p>Description: {{ model.description }}</p>
+                    <p><small>Added by: {{ model.createdBy }}</small></p>
+
         </div>
     {% else %}
         <p>No models found</p>

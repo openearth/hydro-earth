@@ -1,7 +1,6 @@
 from flask import current_app
 from google.cloud import datastore
 
-
 builtin_list = list
 
 
@@ -35,7 +34,7 @@ def from_datastore(entity):
 def list(limit=10, cursor=None):
     ds = get_client()
 
-    query = ds.query(kind='Model', order=['title'])
+    query = ds.query(kind='Model')
     query_iterator = query.fetch(limit=limit, start_cursor=cursor)
     page = next(query_iterator.pages)
 
@@ -54,7 +53,8 @@ def list_by_user(user_id, limit=10, cursor=None):
         kind='Model',
         filters=[
             ('createdById', '=', user_id)
-        ]
+        ],
+        order=['createdTime']
     )
 
     query_iterator = query.fetch(limit=limit, start_cursor=cursor)
@@ -66,6 +66,8 @@ def list_by_user(user_id, limit=10, cursor=None):
         if query_iterator.next_page_token else None)
 
     return entities, next_cursor
+
+
 # [END list_by_user]
 
 

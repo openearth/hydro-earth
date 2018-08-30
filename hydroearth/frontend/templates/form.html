@@ -15,7 +15,7 @@
 
             {#    <input type="text" name="type" id="type" value="{{model.type}}" class="form-control"/>#}
 
-            <select class="custom-select" id="type" value="{{ model.type }}">
+            <select class="custom-select" id="type" name="type">
                 {% for modelType in modelTypes %}
                     <option value="{{ modelType.name }}">{{ modelType.name }}</option>
                 {% endfor %}
