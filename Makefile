@@ -86,3 +86,15 @@ dist: clean ## builds source and wheel package
 
 install: clean ## install the package to the active Python's site-packages
 	python setup.py install
+
+deploy-frontend:
+	gcloud app deploy app-frontend.yaml --project hydro-earth --version=alpha
+
+deploy-worker:
+	gcloud app deploy app-worker.yaml --project hydro-earth --version=alpha
+
+run-frontend:
+	python hydroearth/frontend/main.py
+
+run-worker:
+	python hydroearth/tasks/main.py

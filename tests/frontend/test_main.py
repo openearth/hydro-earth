@@ -6,9 +6,6 @@
 import pytest
 
 
-from hydro_earth import main
-
-
 @pytest.fixture
 def response():
     """Sample pytest fixture.

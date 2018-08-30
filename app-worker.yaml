@@ -1,6 +1,8 @@
+# front-end service and web app
+
 runtime: python
 env: flex
-entrypoint: gunicorn -b :$PORT main:app
+entrypoint: psqworker hydroearth.tasks.worker.models_queue_model1
 
 runtime_config:
   python_version: 3

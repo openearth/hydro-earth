@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h3>Model</h3>
+
+    <div class="btn-group">
+        <a href="/models/{{ model.id }}/edit" class="btn btn-primary btn-sm">
+            <i class="glyphicon glyphicon-edit"></i>
+            Edit model
+        </a>
+        <a href="/models/{{ model.id }}/delete" class="btn btn-danger btn-sm">
+            <i class="glyphicon glyphicon-trash"></i>
+            Delete model
+        </a>
+    </div>
+
+    <div class="media">
+        <div class="media-body">
+            <h4 class="model-title">
+                {{ model.title }} - {{ model.type }} - {{ model.createdBy }}
+            </h4>
+            <p class="model-description">{{ model.description }}</p>
+            <small class="model-added-by">Added by {{ model.createdBy|default('Anonymous', True) }}</small>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,50 @@
+## THIS IS NOT USED YET
+#---
+#
+#definitions:
+#  models:
+#    type: string
+#    enum:
+#      - wflow
+#      - modflow
+#      - imod
+#  model:
+#    type: object
+#    properties:
+#      name:
+#        type: string
+#        items:
+#          $ref: '#/definitions/AllModels'
+#
+#paths:
+#  /models:
+#    get:
+#      description: Returns all available models
+#      parameters:
+#        - name: models
+#          in: path
+#          type: string
+#          enum: ['wflow', 'modflow', 'imod']
+#          required: true
+#      responses:
+#        200:
+#          description: A list of available models (may be filtered by model)
+#          schema:
+#            $ref: '#/definitions/models'
+#          examples:
+#            models: ['wflow', 'modflow', 'imod']
+#
+#  /models/{model}:
+#    get:
+#      description: Retrieves a model
+#      parameters:
+#        - name: name
+#          in: path
+#          description:
+#      responses:
+#        200:
+#          description: Retrieves a model
+#          schema:
+#            $ref: '#/definitions/model'
+#          examples:
+#            name: 'wflow'

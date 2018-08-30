@@ -1,0 +1,1 @@
+gcloud app deploy app-frontend.yaml --project hydro-earth --version=alpha

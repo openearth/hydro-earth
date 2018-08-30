@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h3>Models</h3>
+    <a href="/models/add" class="btn btn-success btn-sm">
+        <i class="glyphicon glyphicon-plus"></i>
+        Add model
+    </a>
+
+    {% for model in models %}
+        <div class="media">
+            <a href="/models/{{ model.id }}">
+                <div class="media-body">
+                    <h4>{{ model.title }}</h4>
+                    <p>{{ model.author }}</p>
+                </div>
+            </a>
+        </div>
+    {% else %}
+        <p>No models found</p>
+    {% endfor %}
+
+    {% if next_page_token %}
+        <nav>
+            <ul class="pager">
+                <li><a href="?page_token={{ next_page_token }}">More</a></li>
+            </ul>
+        </nav>
+    {% endif %}
+
+{% endblock %}

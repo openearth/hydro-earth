@@ -2,7 +2,6 @@
 Hydro Earth
 ===========
 
-
 .. image:: https://img.shields.io/pypi/v/hydro_earth.svg
         :target: https://pypi.python.org/pypi/hydro_earth
 
@@ -13,8 +12,7 @@ Hydro Earth
         :target: https://hydro-earth.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-
-
+Global water-related modeling environment in the Cloud
 
 Water-related modeling tools in the cloud
 
@@ -26,12 +24,14 @@ Water-related modeling tools in the cloud
 Features
 --------
 
-* TODO
+* Generation of input data files for the following numerical models: WFlow, iMOD.
 
-Credits
--------
 
-This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
+Development
+-----------
 
-.. _Cookiecutter: https://github.com/audreyr/cookiecutter
-.. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
+To test the application locally, Google Cloud Datastore emulator needs to be installed: https://cloud.google.com/datastore/docs/tools/datastore-emulator.
+
+
+
+
