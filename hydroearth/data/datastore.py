@@ -35,6 +35,9 @@ def list(limit=10, cursor=None):
     ds = get_client()
 
     query = ds.query(kind='Model')
+
+    # query.order('createdTime')
+
     query_iterator = query.fetch(limit=limit, start_cursor=cursor)
     page = next(query_iterator.pages)
 
@@ -53,9 +56,10 @@ def list_by_user(user_id, limit=10, cursor=None):
         kind='Model',
         filters=[
             ('createdById', '=', user_id)
-        ],
-        order=['createdTime']
+        ]
     )
+
+    # query.order('createdTime')
 
     query_iterator = query.fetch(limit=limit, start_cursor=cursor)
     page = next(query_iterator.pages)

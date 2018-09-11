@@ -37,3 +37,34 @@ def build_model(model_id):
     """
 
     logging.info('Building new model {0} ...'.format(model_id))
+
+    model = datastore.read(model_id)
+
+    model['status'] = 'RUNNING'
+    model = datastore.update(model, model_id)
+
+    print('Building model ...')
+
+    # TODO: build model
+    import time
+    time.sleep(2)
+
+    # TODO: copy data to storage
+    # ...
+    model['status'] = 'UPLOADING_DATA'
+    model = datastore.update(model, model_id)
+    print('Uploading data to Cloud Storage ...')
+
+    # upload_model_data(model_id)
+
+    time.sleep(2)
+
+    model['status'] = 'COMPLETED'
+    model = datastore.update(model, model_id)
+
+# def upload_model_data(model_id):
+#     public_url = storage.upload_file(
+#         file.read(),
+#         file.filename,
+#         file.content_type
+#     )

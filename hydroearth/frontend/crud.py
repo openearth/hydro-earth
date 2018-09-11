@@ -74,12 +74,14 @@ def view(id):
 @crud.route('/add', methods=['GET', 'POST'])
 def add():
     modelTypes = [
-        {'name': 'WFlow'},
-        {'name': 'iMod'}
+        {'name': 'wflow'},
+        {'name': 'iMOD'}
     ]
 
     if request.method == 'POST':
         data = request.form.to_dict(flat=True)
+
+        data['status'] = 'CREATED'
 
         data['createdTime'] = datetime.datetime.now()\
             .strftime('%Y-%m-%d %H:%M:%S')

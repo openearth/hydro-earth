@@ -2,18 +2,16 @@
 # App Engine worker for model builders
 
 
-# replace this line when seting up a new model generator
-service: model-generator-example
-
 runtime: python
 env: flex
-entrypoint: gunicorn -b :$PORT hydroearth.frontend.main:app
+
+entrypoint: gunicorn -b 0.0.0.0:$PORT hydroearth.frontend.main:app
 
 runtime_config:
   python_version: 3
 
-manual_scaling:
-  instances: 1
+automatic_scaling:
+  max_num_instances: 1
 
 resources:
   cpu: .5

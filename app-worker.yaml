@@ -1,14 +1,17 @@
 # front-end service and web app
 
+service: hydro-earth-worker-example
+
 runtime: python
 env: flex
-entrypoint: psqworker hydroearth.tasks.worker.models_queue_model1
+entrypoint: psqworker hydroearth.tasks.worker.models_queue
 
 runtime_config:
   python_version: 3
 
-manual_scaling:
-  instances: 1
+
+automatic_scaling:
+  max_num_instances: 1
 
 resources:
   cpu: .5
