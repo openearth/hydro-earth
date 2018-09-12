@@ -3,6 +3,8 @@ $("#model-type").change(function () {
 });
 
 function updateModelParameters() {
+    $('#parameters').text('... updating ...');
+
     let modelType = $("#model-type option:selected").text();
     updateModelParametersForType(modelType);
 }
