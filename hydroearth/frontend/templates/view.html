@@ -24,6 +24,9 @@
             <p>Type: {{ model.type }}</p>
             <p>Description: {{ model.description }}</p>
             <p>Status: {{ model.status }}</p>
+            {% if model.status == 'COMPLETED' %}
+                <p><a href="{{ model.url }}">Download</a></p>
+            {%  endif %}
             <small class="model-added-by">Added by {{ model.createdBy|default('Anonymous', True) }}</small>
         </div>
     </div>

@@ -46,25 +46,37 @@ def build_model(model_id):
     print('Building model ...')
 
     # TODO: build model
-    import time
-    time.sleep(2)
 
     # TODO: copy data to storage
     # ...
     model['status'] = 'UPLOADING_DATA'
     model = datastore.update(model, model_id)
+
     print('Uploading data to Cloud Storage ...')
-
-    # upload_model_data(model_id)
-
-    time.sleep(2)
+    model['url'] = upload_model_to_storate(model)
 
     model['status'] = 'COMPLETED'
-    model = datastore.update(model, model_id)
+    datastore.update(model, model_id)
 
-# def upload_model_data(model_id):
-#     public_url = storage.upload_file(
-#         file.read(),
-#         file.filename,
-#         file.content_type
-#     )
+
+def upload_model_to_storate(model):
+    """
+    Upload generated model files to Google Cloud Storage and retrieve its
+    publicly-accessible URL.
+    """
+
+    filename = 'test.zip'
+
+    content_type = 'application/zip'
+
+    file = open(filename)
+
+    public_url = storage.upload_file(
+        file.read(),
+        filename,
+        content_type
+    )
+
+    current_app.logger.info("Uploaded file %s as %s.", filename, public_url)
+
+    return public_url

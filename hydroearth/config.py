@@ -19,8 +19,8 @@ PROJECT_ID = 'hydro-earth'
 #
 # You can adjust the max content length and allow extensions settings to allow
 # larger or more varied file types if desired.
-CLOUD_STORAGE_BUCKET = 'hydro-earth-model-builder'
-MAX_CONTENT_LENGTH = 8 * 1024 * 1024
+CLOUD_STORAGE_BUCKET = 'hydro-earth-models'
+MAX_CONTENT_LENGTH = 100 * 1024 * 1024
 ALLOWED_EXTENSIONS = {'zip'}
 
 SECRET_KEY = config_private.SECRET_KEY
