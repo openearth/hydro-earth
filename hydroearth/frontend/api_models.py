@@ -1,12 +1,13 @@
+import json
 import datetime
 
 from hydroearth.frontend.app import get_datastore, oauth2
 from hydroearth.tasks import tasks
 from hydroearth.data import storage
 from flask import Blueprint, current_app, redirect, render_template, request, \
-    session, url_for
+    session, url_for, Response, send_from_directory
 
-crud = Blueprint('crud', __name__)
+api_models = Blueprint('api_models', __name__)
 
 
 def upload_image_file(file):
@@ -29,7 +30,7 @@ def upload_image_file(file):
     return public_url
 
 
-@crud.route("/")
+@api_models.route("/")
 def list():
     token = request.args.get('page_token', None)
     if token:
@@ -44,7 +45,7 @@ def list():
 
 
 # [START list_mine]
-@crud.route("/mine")
+@api_models.route("/mine")
 @oauth2.required
 def list_mine():
     token = request.args.get('page_token', None)
@@ -63,15 +64,29 @@ def list_mine():
 
 # [END list_mine]
 
+@api_models.route("/templates/<type>")
+def get_template(type):
+    """
+    Gets options text file for model type.
+    :return:
+    """
 
-@crud.route('/<id>')
+    # read model options file from Cloud Storage
+    content = storage.read_file('templates/' + type + '.yaml')
+
+    resp = Response(content, status=200,
+                    mimetype='application/text')
+    return resp
+
+
+@api_models.route('/<id>')
 def view(id):
     model = get_datastore().read(id)
     return render_template("view.html", model=model)
 
 
 # [START add]
-@crud.route('/add', methods=['GET', 'POST'])
+@api_models.route('/add', methods=['GET', 'POST'])
 def add():
     modelTypes = [
         {'name': 'wflow'},
@@ -83,7 +98,7 @@ def add():
 
         data['status'] = 'CREATED'
 
-        data['createdTime'] = datetime.datetime.now()\
+        data['createdTime'] = datetime.datetime.now() \
             .strftime('%Y-%m-%d %H:%M:%S')
 
         # If an image was uploaded, update the data to point to the new image.
@@ -113,7 +128,7 @@ def add():
 # [END add]
 
 
-@crud.route('/<id>/edit', methods=['GET', 'POST'])
+@api_models.route('/<id>/edit', methods=['GET', 'POST'])
 def edit(id):
     model = get_datastore().read(id)
 
@@ -132,7 +147,7 @@ def edit(id):
     return render_template("form.html", action="Edit", model=model)
 
 
-@crud.route('/<id>/delete')
+@api_models.route('/<id>/delete')
 def delete(id):
     get_datastore().delete(id)
     return redirect(url_for('.list'))

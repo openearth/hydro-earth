@@ -1,7 +1,10 @@
+import os
 import json
 import logging
 
-from flask import current_app, Flask, redirect, request, session, url_for
+from flask import current_app, Flask, redirect, request, session, url_for, \
+    send_from_directory
+
 import httplib2
 # [START include]
 from oauth2client.contrib.flask_util import UserOAuth2
@@ -9,6 +12,8 @@ from oauth2client.contrib.flask_util import UserOAuth2
 from hydroearth.data import datastore
 
 oauth2 = UserOAuth2()
+
+
 # [END include]
 
 
@@ -37,6 +42,7 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         app,
         scopes=['email', 'profile'],
         authorize_callback=_request_user_info)
+
     # [END init_app]
 
     # [START logout]
@@ -48,16 +54,25 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
         session.modified = True
         oauth2.storage.delete()
         return redirect(request.referrer or '/')
+
     # [END logout]
 
-    # Register the Models CRUD blueprint.
-    from .crud import crud
-    app.register_blueprint(crud, url_prefix='/models')
+    @app.route('/js/<path:filename>')
+    def serve_static(filename):
+        root_dir = os.getcwd()
+
+        dir = os.path.join(root_dir, r'hydroearth/frontend/templates/js')
+
+        return send_from_directory(dir, filename)
+
+    # Register the Models blueprint.
+    from .api_models import api_models
+    app.register_blueprint(api_models, url_prefix='/models')
 
     # Add a default root route.
     @app.route("/")
     def index():
-        return redirect(url_for('crud.list'))
+        return redirect(url_for('api_models.list'))
 
     # Add an error handler. This is useful for debugging the live application,
     # however, you should disable the output of the exception for production

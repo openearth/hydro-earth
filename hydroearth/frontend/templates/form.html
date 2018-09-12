@@ -15,7 +15,7 @@
 
             {#    <input type="text" name="type" id="type" value="{{model.type}}" class="form-control"/>#}
 
-            <select class="custom-select" id="type" name="type">
+            <select class="custom-select" id="model-type" name="type">
                 {% for modelType in modelTypes %}
                     <option value="{{ modelType.name }}">{{ modelType.name }}</option>
                 {% endfor %}
@@ -26,6 +26,11 @@
         <div class="form-group">
             <label for="description">Description</label>
             <textarea name="description" id="description" class="form-control">{{ model.description }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Parameters</label>
+            <textarea name="parameters" id="parameters" class="form-control" rows="10">{{ model.parameters }}</textarea>
         </div>
 
         <div class="form-group hidden">
@@ -42,4 +47,8 @@
         <button type="submit" class="btn btn-success">Save</button>
     </form>
 
+    <script src="/js/form.js"></script>
 {% endblock %}
+
+
+
