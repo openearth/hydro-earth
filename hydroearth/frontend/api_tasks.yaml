@@ -1,0 +1,22 @@
+swagger: "2.0"
+basePath: "/"
+
+schemes:
+  - http
+  - https
+
+info:
+  description: Process water-related datasets globally and generates high-resolution hydro models.
+  title:  Hydro Earth API
+  version: "1.0.0"
+
+paths:
+  /tasks/:
+    get:
+      produces:
+        - application/json
+      description: Gets list of task infos
+      operationId: list_tasks
+      responses:
+        200:
+          description: List of task infos as JSON
