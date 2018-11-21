@@ -39,7 +39,7 @@ setup(
     include_package_data=True,
     keywords='hydroearth',
     name='hydroearth',
-    packages=find_packages(include=['hydroearth']),
+    packages=find_packages(include=['hydroearth','hydroearth.data','hydroearth.frontend','hydroearth.tasks']),
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
