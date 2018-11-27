@@ -28,6 +28,11 @@
             <textarea name="description" id="description" class="form-control">{{ model.description }}</textarea>
         </div>
 
+        <div class="form-group">
+            <label for="description">Parameters</label>
+            <textarea name="parameters" id="parameters" class="form-control" rows="10">{{ model.parameters }}</textarea>
+        </div>
+
         <div class="form-group hidden">
             <label for="createdBy">Created by</label>
             <input type="text" name="createdBy" id="createdBy" value="{{ model.createdBy }}" class="form-control"/>
