@@ -4,8 +4,9 @@ import datetime
 from hydroearth.frontend.app import get_datastore
 from hydroearth.tasks import tasks
 
-from flask import Blueprint, request, \
-    jsonify, session
+from hydroearth.data import storage
+
+from flask import Blueprint, request, Response, jsonify, session
 
 import google.oauth2.id_token
 import google.auth.transport.requests
@@ -140,3 +141,14 @@ def delete(id):
         return jsonify({'deleted': True})
 
     return jsonify({'deleted': False, 'message': 'Access denied.'})
+
+
+@api_tasks.route("/templates/<type>", methods=['GET'])
+def get_template(type):
+    """	
+    Gets options text file for model type.	
+    :return:	
+    """
+    # read model options file from Cloud Storage
+    content = storage.read_file('templates/' + type + '.yaml')
+    return Response(content, status=200, mimetype='application/text')
