@@ -31,7 +31,7 @@ def from_datastore(entity):
     return entity
 
 
-def list(limit=10, cursor=None):
+def list(limit=100, cursor=None):
     ds = get_client()
 
     query = ds.query(kind='Model')
@@ -74,6 +74,11 @@ def list_by_user(user_id, limit=10, cursor=None):
 
 # [END list_by_user]
 
+def count(id):
+    ds = get_client()
+
+    return -1
+
 
 def read(id):
     ds = get_client()
@@ -91,7 +96,7 @@ def update(data, id=None):
 
     entity = datastore.Entity(
         key=key,
-        exclude_from_indexes=['description'])
+        exclude_from_indexes=['description', 'parameters'])
 
     entity.update(data)
     ds.put(entity)

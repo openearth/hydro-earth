@@ -1,23 +1,33 @@
+import os
 import json
 import logging
 
-from flask import current_app, Flask, redirect, request, session, url_for
+from flask_cors import CORS
+
+from flask import current_app, Flask, redirect, request, session, url_for, \
+    send_from_directory
+
+from flasgger import Swagger
+
 import httplib2
-# [START include]
-from oauth2client.contrib.flask_util import UserOAuth2
+
+# from oauth2client.contrib.flask_util import UserOAuth2
 
 from hydroearth.data import datastore
 
-oauth2 = UserOAuth2()
-# [END include]
+# oauth2 = UserOAuth2()
 
 
 def create_app(config, debug=False, testing=False, config_overrides=None):
     app = Flask(__name__)
+    Swagger(app, template_file='api_tasks.yaml')
+
     app.config.from_object(config)
 
     app.debug = debug
     app.testing = testing
+
+    CORS(app)    
 
     if config_overrides:
         app.config.update(config_overrides)
@@ -28,36 +38,49 @@ def create_app(config, debug=False, testing=False, config_overrides=None):
 
     # Setup the data model.
     with app.app_context():
-        model = get_datastore()
-        model.init_app(app)
+        db = get_datastore()
+        db.init_app(app)
 
     # [START init_app]
     # Initalize the OAuth2 helper.
-    oauth2.init_app(
-        app,
-        scopes=['email', 'profile'],
-        authorize_callback=_request_user_info)
+    # oauth2.init_app(
+    #    app,
+    #    scopes=['email', 'profile'],
+    #    authorize_callback=_request_user_info)
+
     # [END init_app]
 
     # [START logout]
     # Add a logout handler.
-    @app.route('/logout')
-    def logout():
-        # Delete the user's profile and the credentials stored by oauth2.
-        del session['profile']
-        session.modified = True
-        oauth2.storage.delete()
-        return redirect(request.referrer or '/')
+    # @app.route('/logout')
+    # def logout():
+    #    # Delete the user's profile and the credentials stored by oauth2.
+    #    del session['profile']
+    #    session.modified = True
+    #    oauth2.storage.delete()
+    #    return redirect(request.referrer or '/')
+
     # [END logout]
 
-    # Register the Models CRUD blueprint.
-    from .crud import crud
-    app.register_blueprint(crud, url_prefix='/models')
+    @app.route('/js/<path:filename>')
+    def serve_static(filename):
+        root_dir = os.getcwd()
+
+        dir = os.path.join(root_dir, r'hydroearth/frontend/templates/js')
+
+        return send_from_directory(dir, filename)
+
+    # Register the Tasks blueprint.
+    from .api_tasks import api_tasks
+    app.register_blueprint(api_tasks, url_prefix='/tasks')
 
     # Add a default root route.
     @app.route("/")
     def index():
-        return redirect(url_for('crud.list'))
+        # return redirect(url_for('api_tasks.list'))
+        return redirect(request.url + 'apidocs')
+
+
 
     # Add an error handler. This is useful for debugging the live application,
     # however, you should disable the output of the exception for production

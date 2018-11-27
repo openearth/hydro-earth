@@ -80,7 +80,7 @@ def build_model(model):
     return model
 
 
-def upload_model_to_storate(model):
+def upload_model_to_storage(model):
     """
     Upload generated model files to Google Cloud Storage and retrieve its
     publicly-accessible URL.
@@ -90,6 +90,9 @@ def upload_model_to_storate(model):
 
     content_type = 'application/zip'
 
+    # TODO: replace this by the actual model output file path
+    filename = 'app-worker-run.cmd'
+
     file = open(filename)
 
     prefix_path = "output/"
@@ -97,7 +100,8 @@ def upload_model_to_storate(model):
 
     public_url = storage.upload_file(
         file.read(),
-        filename,
+        prefix_path,
+        path,
         content_type
     )
 
