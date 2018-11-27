@@ -32,6 +32,10 @@ Development
 
 To test the application locally, Google Cloud Datastore emulator needs to be installed: https://cloud.google.com/datastore/docs/tools/datastore-emulator.
 
+Deployment
+----------
+
+.. image:: https://github.com/openearth/hydro-earth/blob/master/docs/media/deployment.png
 
 
 

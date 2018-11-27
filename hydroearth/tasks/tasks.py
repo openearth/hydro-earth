@@ -1,3 +1,4 @@
+import os
 import logging
 
 from flask import current_app
@@ -46,6 +47,7 @@ def build_model(model_id):
     print('Building model ...')
 
     # TODO: build model
+    model = build_model(model)
 
     # TODO: copy data to storage
     # ...
@@ -58,12 +60,33 @@ def build_model(model_id):
     model['status'] = 'COMPLETED'
     datastore.update(model, model_id)
 
+    # Delete model generator
+    model = delete_model_output_locally(model)
+
+
+def build_model(model):
+    """
+    Build model for hydro-model-generator
+    :param model:
+    :type model:
+    :return:
+    :rtype:
+    """
+    generator_type = os.environ['MODELTYPE']
+
+    if model['type'] == generator_type:
+        cmd = "python model_generator_runner.py"
+        subprocess.call(cmd)
+    return model
+
 
 def upload_model_to_storage(model):
     """
     Upload generated model files to Google Cloud Storage and retrieve its
     publicly-accessible URL.
     """
+
+    filename = 'wflow_sbm_case.zip'
 
     content_type = 'application/zip'
 
@@ -85,3 +108,11 @@ def upload_model_to_storage(model):
     current_app.logger.info("Uploaded file %s as %s.", filename, public_url)
 
     return public_url
+
+def delete_model_output_locally(model):
+    """
+    Delete model output from generator image once upload was successful
+    """
+    filename = 'wflow_sbm_case.zip'
+    shutil.rmtree(filename)
+    return model
