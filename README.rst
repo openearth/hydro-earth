@@ -27,10 +27,15 @@ Features
 * Generation of input data files for the following numerical models: WFlow, iMOD.
 
 
-Development
------------
+Development Diagram
+-------------------
 
 To test the application locally, Google Cloud Datastore emulator needs to be installed: https://cloud.google.com/datastore/docs/tools/datastore-emulator.
+
+Worker Deployment Instructions
+------------------------------
+
+See [Worker Deployment Instructions](Worker Deployment Instructions)
 
 Deployment
 ----------
