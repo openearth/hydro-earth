@@ -35,7 +35,7 @@ To test the application locally, Google Cloud Datastore emulator needs to be ins
 Worker Deployment Instructions
 ------------------------------
 
-See [Worker Deployment Instructions](Worker Deployment Instructions)
+See https://github.com/openearth/hydro-earth/wiki/Worker-Deployment-Instructions.
 
 Deployment
 ----------
