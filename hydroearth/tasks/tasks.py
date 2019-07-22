@@ -1,5 +1,6 @@
 import os
 import logging
+import subprocess
 
 from flask import current_app
 from hydroearth import config
@@ -47,7 +48,7 @@ def build_model(model_id):
     print('Building model ...')
 
     # TODO: build model
-    model = build_model(model)
+    model = build_model_cmd(model)
 
     # TODO: copy data to storage
     # ...
@@ -64,7 +65,7 @@ def build_model(model_id):
     model = delete_model_output_locally(model)
 
 
-def build_model(model):
+def build_model_cmd(model)
     """
     Build model for hydro-model-generator
     :param model:
@@ -75,8 +76,9 @@ def build_model(model):
     generator_type = os.environ['MODELTYPE']
 
     if model['type'] == generator_type:
-        cmd = "python model_generator_runner.py"
-        subprocess.call(cmd)
+        cmd = ["python", "model_generator_runner.py"]
+        cp = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE, stderr=subproess.PIPE)
+        print('Building status {}, {}'.format(cp.returncode, cp.stderr))
     return model
 
 
@@ -91,7 +93,7 @@ def upload_model_to_storage(model):
     content_type = 'application/zip'
 
     # TODO: replace this by the actual model output file path
-    filename = 'app-worker-run.cmd'
+    # filename = 'app-worker-run.cmd'
 
     file = open(filename)
 
