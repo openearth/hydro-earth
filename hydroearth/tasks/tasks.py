@@ -65,7 +65,7 @@ def build_model(model_id):
     model = delete_model_output_locally(model)
 
 
-def build_model_cmd(model)
+def build_model_cmd(model):
     """
     Build model for hydro-model-generator
     :param model:
