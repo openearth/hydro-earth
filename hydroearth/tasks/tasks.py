@@ -77,7 +77,7 @@ def build_model_cmd(model):
 
     if model['type'] == generator_type:
         cmd = ["python", "model_generator_runner.py"]
-        cp = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE, stderr=subproess.PIPE)
+        cp = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         print('Building status {}, {}'.format(cp.returncode, cp.stderr))
     return model
 
