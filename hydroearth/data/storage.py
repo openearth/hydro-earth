@@ -48,7 +48,7 @@ def upload_file(file_stream, prefix_path, filename, content_type):
     bucket = client.bucket(current_app.config['CLOUD_STORAGE_BUCKET'])
     blob = bucket.blob(filename)
 
-    blob.upload_from_string(
+    blob.upload_from_file(
         file_stream,
         content_type=content_type)
 
