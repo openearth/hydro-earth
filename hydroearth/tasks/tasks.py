@@ -95,13 +95,13 @@ def upload_model_to_storage(model):
     # TODO: replace this by the actual model output file path
     # filename = 'app-worker-run.cmd'
 
-    file = open(filename)
+    file = open(filename, 'rb')
 
     prefix_path = "output/"
     path = "{0}-{1}.zip".format(model['type'], model['id'])
 
     public_url = storage.upload_file(
-        file.read(),
+        file,
         prefix_path,
         path,
         content_type
