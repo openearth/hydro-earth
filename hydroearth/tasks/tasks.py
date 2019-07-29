@@ -1,7 +1,6 @@
 import os
 import logging
 import subprocess
-import shutil
 
 from flask import current_app
 from hydroearth import config
