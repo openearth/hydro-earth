@@ -116,6 +116,6 @@ def delete_model_output_locally(model):
     """
     Delete model output from generator image once upload was successful
     """
-    filename = 'wflow_sbm_case.zip'
+    filename = '/app/hydro_model_generator_wflow/wflow_sbm_case.zip'
     shutil.rmtree(filename)
     return model
