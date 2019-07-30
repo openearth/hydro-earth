@@ -75,10 +75,15 @@ def build_model_cmd(model):
     """
     generator_type = os.environ['MODELTYPE']
 
-    if model['type'] == generator_type:
+    # if model['type'] == generator_type:
+    if model['type'] == "wflow":
         cmd = ["python3", "model_generator_runner.py"]
         cp = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        print('Building status {}, {}'.format(cp.returncode, cp.stderr))
+        print('Building wflow status {}, {}'.format(cp.returncode, cp.stderr))
+    if model['type'] == "imod":
+        cmd = ["python3", "model_generator_runner.py"]
+        cp = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        print('Building imod status {}, {}'.format(cp.returncode, cp.stderr))
     return model
 
 
@@ -88,7 +93,10 @@ def upload_model_to_storage(model):
     publicly-accessible URL.
     """
 
-    filename = 'wflow_sbm_case.zip'
+    if model['type'] == "wflow":
+        filename = 'wflow_sbm_case.zip'
+    if model['type'] == "imod":
+        filename = 'iMOD.zip'
 
     content_type = 'application/zip'
 
