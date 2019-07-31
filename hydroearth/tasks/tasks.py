@@ -126,7 +126,7 @@ def delete_model_output_locally(model):
     if model['type'] == "wflow":
         filename = '/app/hydro_model_generator_wflow/wflow_sbm_case.zip'
     if model['type'] == "iMOD":
-        filename = '/app/hydro_model_generator_wflow/iMOD.zip'
+        filename = '/app/hydro_model_generator_imod/iMOD.zip'
 
     if os.path.exists(filename):
         os.remove(filename)
