@@ -73,8 +73,7 @@ def build_model_cmd(model):
     :return:
     :rtype:
     """
-    generator_type = os.environ['MODELTYPE']
-
+    # generator_type = os.environ['MODELTYPE']
     # if model['type'] == generator_type:
     if model['type'] == "wflow":
         cmd = ["python3", "/app/hydro-model-generator-wflow/hydro_model_generator_wflow/model_generator_runner.py"]
