@@ -123,7 +123,11 @@ def delete_model_output_locally(model):
     """
     Delete model output from generator image once upload was successful
     """
-    filename = '/app/hydro_model_generator_wflow/wflow_sbm_case.zip'
+    if model['type'] == "wflow":
+        filename = '/app/hydro_model_generator_wflow/wflow_sbm_case.zip'
+    if model['type'] == "iMOD":
+        filename = '/app/hydro_model_generator_wflow/iMOD.zip'
+
     if os.path.exists(filename):
         os.remove(filename)
     return model
