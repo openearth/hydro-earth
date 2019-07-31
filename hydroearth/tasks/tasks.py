@@ -77,11 +77,11 @@ def build_model_cmd(model):
 
     # if model['type'] == generator_type:
     if model['type'] == "wflow":
-        cmd = ["python3", "model_generator_runner.py"]
+        cmd = ["python3", "/app/hydro-model-generator-wflow/hydro_model_generator_wflow/model_generator_runner.py"]
         cp = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         print('Building wflow status {}, {}'.format(cp.returncode, cp.stderr))
     if model['type'] == "iMOD":
-        cmd = ["python3", "model_generator_runner.py"]
+        cmd = ["python3", "/app/hydro-model-generator-imod/hydro_model_generator_imod/model_generator_runner.py"]
         cp = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         print('Building imod status {}, {}'.format(cp.returncode, cp.stderr))
     return model
@@ -124,9 +124,9 @@ def delete_model_output_locally(model):
     Delete model output from generator image once upload was successful
     """
     if model['type'] == "wflow":
-        filename = '/app/hydro_model_generator_wflow/wflow_sbm_case.zip'
+        filename = 'wflow_sbm_case.zip'
     if model['type'] == "iMOD":
-        filename = '/app/hydro_model_generator_imod/iMOD.zip'
+        filename = 'iMOD.zip'
 
     if os.path.exists(filename):
         os.remove(filename)
