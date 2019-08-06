@@ -48,7 +48,7 @@ def build_model(model_id):
     print('Building model ...')
 
     # TODO: build model
-    model = build_model_cmd(model)
+    model = build_model_cmd(model, model_id)
 
     # TODO: copy data to storage
     # ...
@@ -56,16 +56,16 @@ def build_model(model_id):
     model = datastore.update(model, model_id)
 
     print('Uploading data to Cloud Storage ...')
-    model['url'] = upload_model_to_storage(model)
+    model['url'] = upload_model_to_storage(model, model_id)
 
     model['status'] = 'COMPLETED'
     datastore.update(model, model_id)
 
     # Delete model generator
-    model = delete_model_output_locally(model)
+    model = delete_model_output_locally(model, model_id)
 
 
-def build_model_cmd(model):
+def build_model_cmd(model, model_id):
     """
     Build model for hydro-model-generator
     :param model:
@@ -75,27 +75,27 @@ def build_model_cmd(model):
     """
     # generator_type = os.environ['MODELTYPE']
     # if model['type'] == generator_type:
-    if model['type'] == "wflow":
-        cmd = ["python3", "/app/hydro-model-generator-wflow/hydro_model_generator_wflow/model_generator_runner.py"]
-        cp = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        print('Building wflow status {}, {}'.format(cp.returncode, cp.stderr))
-    if model['type'] == "iMOD":
-        cmd = ["python3", "/app/hydro-model-generator-imod/hydro_model_generator_imod/model_generator_runner.py"]
-        cp = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        print('Building imod status {}, {}'.format(cp.returncode, cp.stderr))
+    model_type = model['type']
+
+    with open("/app/hydro-generator/yaml/{}-{}.yaml".format(model_type, model_id), "w") as f:
+        f.write(model['parameters'])
+
+    cmd = ["python3", "/app/hydro-generator/model/{}/model_generator_runner.py".format(model_type), "{}".format(model_id)]
+    cp = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    print('Building {}-{} status {}, {}'.format(model_type, model_id, cp.returncode, cp.stderr))
     return model
 
 
-def upload_model_to_storage(model):
+def upload_model_to_storage(model, model_id):
     """
     Upload generated model files to Google Cloud Storage and retrieve its
     publicly-accessible URL.
     """
 
     if model['type'] == "wflow":
-        filename = 'wflow_sbm_case.zip'
+        filename = '/app/hydro-input/wflow_sbm_case-{}.zip'.format(model_id)
     if model['type'] == "iMOD":
-        filename = 'iMOD.zip'
+        filename = '/app/hydro-input/iMOD-{}.zip'.format(model_id)
 
     content_type = 'application/zip'
 
@@ -118,14 +118,14 @@ def upload_model_to_storage(model):
 
     return public_url
 
-def delete_model_output_locally(model):
+def delete_model_output_locally(model, model_id):
     """
     Delete model output from generator image once upload was successful
     """
     if model['type'] == "wflow":
-        filename = 'wflow_sbm_case.zip'
+        filename = '/app/hydro-input/wflow_sbm_case-{}.zip'.format(model_id)
     if model['type'] == "iMOD":
-        filename = 'iMOD.zip'
+        filename = '/app/hydro-input/iMOD-{}.zip'.format(model_id)
 
     if os.path.exists(filename):
         os.remove(filename)
